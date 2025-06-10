@@ -13,18 +13,26 @@ const curationDirective = {
         doc: "body",
         required: true,
     },
-    run(data) {
+    options: {
+        depth: {
+            type: Number,
+            doc: "heading depth"
+        },
+    },
+    run(data, vfile, ctx) {
         // Validate ToC
         let obj = yaml.load(data.body);
         let opts = { property: "test" }; // I don't know what this does 😱
         let toc = validateTOC(obj, opts) ?? "oh no!";
         console.log(toc);
+        // Process options
+        const depth = data.options?.depth ?? 2;
         return [{
             type: "block",
             children: [
                 {
                     type: "heading",
-                    depth: 2,
+                    depth: depth,
                     enumerated: false,
                     children: [
                         { type: "text", value: data.arg },
