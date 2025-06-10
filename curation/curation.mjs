@@ -51,21 +51,20 @@ const curationDirective = {
             ],
         });
 
-        // Add desscription
+        // Add description
         if (description) {
             items.push({
                 type: "paragraph",
                 children: [
-                    // { type: "text", value: description },
                     ctx.parseMyst(description).children[0]
                 ],
             })
         };
 
-        // Add Toc
+        // Add ToC
         items.push(toc.children[0])
 
-        return [{type: "block", children: items}];
+        return items;
     },
 };
 
