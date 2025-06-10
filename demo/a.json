@@ -1,0 +1,19 @@
+{
+    type: "block",
+    children: [
+        {
+            type: "heading",
+            depth: 2,
+            enumerated: false,
+            children: [
+                { type: "text", value: data.arg },
+            ],
+        },
+        {
+            type: "paragraph",
+            children: [
+                { type: "text", value: data.body },
+            ],
+        },
+    ]
+}
