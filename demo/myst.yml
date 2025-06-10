@@ -15,9 +15,3 @@ site:
   # options:
   #   favicon: favicon.ico
   #   logo: site_logo.png
-curations:
-  - name: my favourites
-    toc:
-      - file: animals/cats.md
-      - file: cinemas/prince_charles.md
-      - file: places/lundy.md
