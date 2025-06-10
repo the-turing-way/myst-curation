@@ -17,7 +17,7 @@ const curationDirective = {
         // Validate ToC
         let obj = yaml.load(data.body);
         let opts = { property: "test" }; // I don't know what this does 😱
-        toc = validateTOC(obj, opts) ?? "oh no!";
+        let toc = validateTOC(obj, opts) ?? "oh no!";
         console.log(toc);
         return [{
             type: "block",
