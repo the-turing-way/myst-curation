@@ -1,4 +1,6 @@
 {
+  "name": "myst-curation",
+  "version": "0.0.1",
   "dependencies": {
     "js-yaml": "^4.1.0",
     "mystmd": "^1.3.25"
