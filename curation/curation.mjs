@@ -1,4 +1,3 @@
-import { validateTOC } from 'myst-toc';
 import yaml from 'js-yaml';
 
 const curationDirective = {
@@ -27,16 +26,10 @@ const curationDirective = {
         // Process options
         const depth = data.options?.depth ?? 2;
         const description = data.options?.description ?? null;
-        // let description = "hello";
-
-        // Validate ToC
-        let obj = yaml.load(data.body);
-        let opts = { property: "test" }; // I don't know what this does 😱
-        let toc = validateTOC(obj, opts) ?? "oh no!";
-        console.log(toc);
 
         // Process ToC
-        toc = ctx.parseMyst(data.body);
+        // let obj = yaml.load(data.body);
+        let toc = ctx.parseMyst(data.body);
         console.log(toc);
 
         let items = [];
