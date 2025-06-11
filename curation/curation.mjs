@@ -25,30 +25,49 @@ const curationDirective = {
             type: String,
             doc: "Target label for this curation",
         },
+        ordered: {
+            type: Boolean,
+            doc: "If true curation is an ordered list",
+        },
     },
     run(data, vfile, ctx) {
         // Process options
         const depth = data.options?.depth ?? 2;
         const description = data.options?.description ?? null;
         const label = data.options?.label ?? null;
+        const ordered = data.options?.ordered ?? false;
 
-        // Process ToC
-        // let obj = yaml.load(data.body);
-        let toc = ctx.parseMyst(data.body);
+        // Parse body
+        let items = yaml.load(data.body);
+        console.log(items);
+
+        // Generate ToC
+        let toc = {
+            type: "List",
+            ordered: ordered,
+            children: [],
+        };
+        for (const item of items) {
+            console.log(item)
+            toc.children.push(
+                toc_item(item)
+            );
+        }
         console.log(toc);
 
-        let items = [];
+        // List of AST nodes
+        let nodes = [];
 
         // Add label
         if (label) {
-            items.push({
+            nodes.push({
                 type: "mystTarget",
                 label: label,
             });
         }
 
         // Add heading
-        items.push({
+        nodes.push({
             type: "heading",
             depth: depth,
             enumerated: false,
@@ -59,7 +78,7 @@ const curationDirective = {
 
         // Add description
         if (description) {
-            items.push({
+            nodes.push({
                 type: "paragraph",
                 children: [
                     ctx.parseMyst(description).children[0]
@@ -68,11 +87,25 @@ const curationDirective = {
         };
 
         // Add ToC
-        items.push(toc.children[0])
+        nodes.push(toc)
 
-        return items;
+        return nodes;
     },
 };
+
+function toc_item(target) {
+    return {
+        type: "listItem",
+        spread: true,
+        children: [
+            {
+                type: "link",
+                url: target,
+                children: [],
+            },
+        ]
+    }
+}
 
 const plugin = {
     name: "Curation",

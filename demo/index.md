@@ -1,3 +1,4 @@
+(index)=
 # Index
 
 :::{toc} A ToC
@@ -14,9 +15,10 @@ description: >
   Chosen by **me**.
 label: cur-my-favourites
 ---
-- file: animals/cats.md
-- file: cinemas/prince_charles.md
-- file: places/lundy.md
+- animals/cats.md
+- cinemas/prince_charles.md
+- places/lundy.md
+- '#index'
 :::
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
