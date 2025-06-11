@@ -45,6 +45,8 @@ const curationDirective = {
         let toc = {
             type: "List",
             ordered: ordered,
+            start: ordered ? 1 : null,
+            spread: false,
             children: [],
         };
         for (const item of items) {
