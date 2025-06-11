@@ -6,13 +6,13 @@
 
 I have put my favourites into a curation [here](#cur-my-favourites).
 
-(cur-my-favourites)=
 :::{curation} My Favourites
 ---
 depth: 2
 description: >
   My favourite things in this book.
   Chosen by **me**.
+label: cur-my-favourites
 ---
 - file: animals/cats.md
 - file: cinemas/prince_charles.md

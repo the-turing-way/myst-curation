@@ -21,11 +21,16 @@ const curationDirective = {
             type: String,
             doc: "Curation description",
         },
+        label: {
+            type: String,
+            doc: "Target label for this curation",
+        },
     },
     run(data, vfile, ctx) {
         // Process options
         const depth = data.options?.depth ?? 2;
         const description = data.options?.description ?? null;
+        const label = data.options?.label ?? null;
 
         // Process ToC
         // let obj = yaml.load(data.body);
@@ -33,6 +38,14 @@ const curationDirective = {
         console.log(toc);
 
         let items = [];
+
+        // Add label
+        if (label) {
+            items.push({
+                type: "mystTarget",
+                label: label,
+            });
+        }
 
         // Add heading
         items.push({
