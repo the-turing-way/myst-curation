@@ -15,6 +15,7 @@ description: >
 label: cur-my-favourites
 ---
 - animals/cats.md
+- - '#sec-cats-moggy-ringwald'
 - cinemas/prince_charles.md
 - places/lundy.md
 - '#index'
@@ -33,6 +34,7 @@ description: >
 label: cur-my-favourites
 ---
 - animals/cats.md
+- - '#sec-cats-moggy-ringwald'
 - cinemas/prince_charles.md
 - places/lundy.md
 - '#index'

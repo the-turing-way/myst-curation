@@ -49,10 +49,7 @@ const curationDirective = {
       spread: false,
       children: [],
     };
-    for (const item of items) {
-      console.log(item);
-      toc.children.push(toc_item(item));
-    }
+    toc.children = process_toc_tree(items)
     console.log(toc);
 
     // List of AST nodes
@@ -89,6 +86,38 @@ const curationDirective = {
   },
 };
 
+// Process the ToC tree and return the children of a list node
+function process_toc_tree(toc_tree) {
+  // Takes a nested yaml list like
+  // - a
+  // - b  <-- Head of new branch
+  // - - c
+  // - - d
+  // - e
+
+  // At end of a branch
+  if (toc_tree.length == 1) {
+    // Return a list item and terminate recursion
+    return [toc_item(toc_tree[0])];
+  }
+
+  // Get first, second and remainder of list
+  let [head, next, ...tail] = toc_tree;
+
+  if (Array.isArray(next)) {
+    // This is the head of a new branch
+    return toc_branch(head, next).concat(
+      process_toc_tree(tail)
+    );
+  } else {
+    // This is an item in the list
+    return [toc_item(head)].concat(
+      process_toc_tree([next].concat(tail))
+    );
+  }
+}
+
+// Return a single list item node for a ToC entry
 function toc_item(target) {
   return {
     type: "listItem",
@@ -101,6 +130,29 @@ function toc_item(target) {
       },
     ],
   };
+}
+
+// Return a list item and list node for a branch of the ToC tree
+function toc_branch(target, children) {
+  return [
+    {
+      type: "listItem",
+      spread: true,
+      children: [
+        {
+          type: "link",
+          url: target,
+          children: [],
+        },
+      ],
+    },
+    {
+      type: "list",
+      ordered: false,
+      spread: false,
+      children: process_toc_tree(children),
+    }
+  ];
 }
 
 const plugin = {
