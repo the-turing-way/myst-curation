@@ -95,30 +95,39 @@ function process_toc_tree(toc_tree) {
   // - - d
   // - e
 
+  console.log("tree:\n", toc_tree);
+
   // At end of a branch
-  if (toc_tree.length == 1) {
+  // Get head and remainder of list
+  let [head, ...tail] = toc_tree;
+  console.log("head:\n", head);
+  console.log("tail:\n", tail);
+
+  let nodes = [];
+  // console.log("Adding item to list");
+  nodes.push(toc_item(head["item"]));
+  // console.log("nodes:\n", nodes);
+
+  if ("children" in head) {
+    // console.log("Processing children");
+    // console.log("children:\n", head["children"]);
+    nodes.push(toc_branch(head["children"]));
+    // console.log("nodes:\n", nodes);
+  }
+
+  if (tail.length == 0) {
     // Return a list item and terminate recursion
-    return [toc_item(toc_tree[0])];
+    // console.log("last item");
+    return nodes;
   }
 
-  // Get first, second and remainder of list
-  let [head, next, ...tail] = toc_tree;
-
-  if (Array.isArray(next)) {
-    // This is the head of a new branch
-    return toc_branch(head, next).concat(
-      process_toc_tree(tail)
-    );
-  } else {
-    // This is an item in the list
-    return [toc_item(head)].concat(
-      process_toc_tree([next].concat(tail))
-    );
-  }
+  // Process the remainder
+  return nodes.concat(process_toc_tree(tail));
 }
 
 // Return a single list item node for a ToC entry
 function toc_item(target) {
+  console.log(target);
   return {
     type: "listItem",
     spread: true,
@@ -132,27 +141,14 @@ function toc_item(target) {
   };
 }
 
-// Return a list item and list node for a branch of the ToC tree
-function toc_branch(target, children) {
-  return [
-    {
-      type: "listItem",
-      spread: true,
-      children: [
-        {
-          type: "link",
-          url: target,
-          children: [],
-        },
-      ],
-    },
-    {
-      type: "list",
-      ordered: false,
-      spread: false,
-      children: process_toc_tree(children),
-    }
-  ];
+// Return a list node for a branch of the ToC tree
+function toc_branch(toc_tree) {
+  return {
+    type: "list",
+    ordered: false,
+    spread: false,
+    children: process_toc_tree(toc_tree),
+  };
 }
 
 const plugin = {
