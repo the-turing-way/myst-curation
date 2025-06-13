@@ -49,7 +49,7 @@ const curationDirective = {
       spread: false,
       children: [],
     };
-    toc.children = process_toc_tree(items)
+    toc.children = process_toc_tree(items);
     console.log(toc);
 
     // List of AST nodes
