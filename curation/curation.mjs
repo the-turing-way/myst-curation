@@ -39,7 +39,6 @@ const curationDirective = {
 
     // Parse body
     let items = yaml.load(data.body);
-    console.log(items);
 
     // Generate ToC
     let toc = {
@@ -50,7 +49,6 @@ const curationDirective = {
       children: [],
     };
     toc.children = process_toc_tree(items);
-    console.log(toc);
 
     // List of AST nodes
     let nodes = [];
@@ -95,29 +93,23 @@ function process_toc_tree(toc_tree) {
   // - - d
   // - e
 
-  console.log("tree:\n", toc_tree);
-
-  // At end of a branch
   // Get head and remainder of list
   let [head, ...tail] = toc_tree;
-  console.log("head:\n", head);
-  console.log("tail:\n", tail);
 
   let nodes = [];
-  // console.log("Adding item to list");
-  nodes.push(toc_item(head["item"]));
-  // console.log("nodes:\n", nodes);
 
+  // Add current item to toc
+  nodes.push(toc_item(head["item"]));
+
+  // If this is the head of a new branch
   if ("children" in head) {
-    // console.log("Processing children");
-    // console.log("children:\n", head["children"]);
+    // Process this branch and add it to the toc
     nodes.push(toc_branch(head["children"]));
-    // console.log("nodes:\n", nodes);
   }
 
+  // At end of a branch
   if (tail.length == 0) {
     // Return a list item and terminate recursion
-    // console.log("last item");
     return nodes;
   }
 
@@ -127,7 +119,6 @@ function process_toc_tree(toc_tree) {
 
 // Return a single list item node for a ToC entry
 function toc_item(target) {
-  console.log(target);
   return {
     type: "listItem",
     spread: true,
